@@ -28,5 +28,5 @@ prod-destroy:
 	terraform init -backend-config=env-prod/state.tfvars
 	terraform destroy -auto-approve -var-file=env-prod/main.tfvars -var vault_token=$(vault_token)
 
-clean:
-	rm -rf .terraform
+# clean:
+# 	rm -rf .terraform
