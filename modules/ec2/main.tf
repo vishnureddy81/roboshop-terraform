@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg" {
-  name        = "#{var.component_name}-${var.env}-sg"
+  name        = "${var.component_name}-${var.env}-sg"
   description = "inbound allow for ${var.component_name}"
 
   ingress {
@@ -26,7 +26,7 @@ resource "aws_security_group" "sg" {
 }resource "aws_instance" "instance" {
   ami           = "data.aws_ami.ami.id"
   instance_type = "var.instance_type"
-  vpc_security_group_ids = ["aws_security_groups.sg.id"]
+  vpc_security_group_ids = ["aws_security_group.sg.id"]
   tags = {
     Name = "${var.component_name}-${var.env}"
   }
