@@ -23,7 +23,9 @@ resource "aws_security_group" "sg" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-}resource "aws_instance" "instance" {
+}
+
+resource "aws_instance" "instance" {
   ami           = "data.aws_ami.ami.id"
   instance_type = "var.instance_type"
   vpc_security_group_ids = ["aws_security_group.sg.id"]
