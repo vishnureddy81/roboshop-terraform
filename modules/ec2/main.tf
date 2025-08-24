@@ -25,14 +25,10 @@ resource "aws_security_group" "sg" {
   }
 
 
-
-
-
-
 }resource "aws_instance" "instance" {
   ami           = "data.aws_ami.ami.id"
   instance_type = "var.instance_type"
-  vpc_security_group_ids = ["sg-0fabcecd5236d6dce"]
+  vpc_security_group_ids = ["aws_security_groups.sg.id"]
   tags = {
     Name = "${var.component_name}-${var.env}"
   }
