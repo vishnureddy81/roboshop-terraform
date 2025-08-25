@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.3"
+    }
+  }
+}
 resource "aws_security_group" "sg" {
   name        = "${var.component_name}-${var.env}-sg"
   description = "inbound allow for ${var.component_name}"
@@ -25,33 +33,30 @@ resource "aws_security_group" "sg" {
 }
 
 resource "aws_instance" "instance" {
-  ami                    = data.aws_ami.ami.id   # ✅ fixed
-  instance_type          = var.instance_type     # ✅ fixed
+  ami = data.aws_ami.ami.id   # ✅ fixed
+  instance_type = var.instance_type     # ✅ fixed
   vpc_security_group_ids = [aws_security_group.sg.id]  # ✅ fixed
 
   tags = {
     Name = "${var.component_name}-${var.env}"
   }
+}
+resource "null_resource" "ansible-pull" {
+provisioner "remote-exec" {
 
-
-  provisioner "remote-exec" {
-
-    connection {
-      type     = "ssh"
-      user     = "ec2-user"
-      password = "DevOps321"
-      host     = self.private_ip
-    }
-
-    inline = [
-      "sudo labauto ansible",
-      "ansible-pull -i localhost, -U https://github.com/raghudevopsb81/roboshop-ansible roboshop.yml -e env=${var.env} -e app_name=${var.component_name}"
-    ]
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = aws_instance.instance.private_ip
   }
 
+  inline = [
+    "sudo labauto ansible",
+    "ansible-pull -i localhost, -U https://github.com/raghudevopsb81/roboshop-ansible roboshop.yml -e env=${var.env} -e app_name=${var.component_name}"
+  ]
 }
-
-
+}
 
 
 
