@@ -1,5 +1,10 @@
 env  = "dev"
 
+domain_name = "vishnuredddy.online"
+zone_id = "Z05470293UTKVXA4543KK"
+
+
+
 
 db_instances = {
   mongodb = {
