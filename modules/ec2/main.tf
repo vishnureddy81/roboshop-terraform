@@ -34,7 +34,8 @@ resource "aws_instance" "instance" {
   }
 
 
-  provisioner "remote-exec" {}
+  provisioner "remote-exec" {
+
   connection {
     type     = "ssh"
     user     = "ec2-user"
@@ -48,7 +49,7 @@ resource "aws_instance" "instance" {
     ]
 
   }
-
+}
 
 
 
